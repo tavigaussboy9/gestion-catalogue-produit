@@ -1,0 +1,32 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+  inventory-service:
+    build:
+      context: ./inventory-service
+    ports:
+      - '3001:3001'
+    depends_on:
+      - mongo
+  order-service:
+    build:
+      context: ./order-service
+    ports:
+      - '3002:3002'
+  review-service:
+    build:
+      context: ./review-service
+    ports:
+      - '3003:3003'
+  api-gateway:
+    build:
+      context: ./api-gateway
+    ports:
+      - '3000:3000'
+    depends_on:
+      - inventory-service
+      - order-service
+      - review-service
